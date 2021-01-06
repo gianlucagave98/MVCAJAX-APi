@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Service", "Service\Service.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "API", "API\API.csproj", "{2945846B-83CC-40A8-ACB9-F967089B003C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVCAJAX", "MVCAJAX\MVCAJAX.csproj", "{A8B95C52-E6DB-4378-BE00-907272F663E6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{2945846B-83CC-40A8-ACB9-F967089B003C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2945846B-83CC-40A8-ACB9-F967089B003C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2945846B-83CC-40A8-ACB9-F967089B003C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8B95C52-E6DB-4378-BE00-907272F663E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8B95C52-E6DB-4378-BE00-907272F663E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8B95C52-E6DB-4378-BE00-907272F663E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8B95C52-E6DB-4378-BE00-907272F663E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -14,8 +14,6 @@
             <tr>
                 <th align="left" class="productth">ID</th>
                 <th align="left" class="productth">Student Name</th>
-                <th align="left" class="productth">Student LastName</th>
-                <th align="left" class="productth">Student Code</th>
                 <th align="left" class="productth">Student Address</th>
                 <th align="left" class="productth">Edit</th>
                 <th align="left" class="productth">Delete</th>
@@ -25,13 +23,11 @@
             @foreach (var item in Model)
             {
                 <tr>
-                    <td align="left" class="productth">@item.ID</td>
-                    <td align="left" class="productth">@item.Name</td>
-                    <td align="left" class="productth">@item.LastName</td>
-                    <td align="left" class="productth">@item.Code</td>
-                    <td align="left" class="productth">@item.Address</td>
-                    <th align="left" class="productth"><a class="nav-link btn edit" unique="@item.ID">Edit</a> </th>
-                    <th align="left" class="productth"><a class="nav-link btn remove" unique="@item.ID">Delete</a></th>
+                    <td align="left" class="productth">@item.studentID</td>
+                    <td align="left" class="productth">@item.studentName</td>
+                    <td align="left" class="productth">@item.studentAddress</td>
+                    <th align="left" class="productth"><a class="nav-link btn edit" unique="@item.studentID">Edit</a> </th>
+                    <th align="left" class="productth"><a class="nav-link btn remove" unique="@item.studentID">Delete</a></th>
                 </tr>
             }
         </tbody>
@@ -45,16 +41,8 @@
         <input type="text" name="StudentName" id="StudentName" class="form-control" placeholder="Enter Student Name" required>
     </div>
     <div class="form-group col-md-12">
-        <label for="">Student LastName</label>
-        <input type="text" name="StudentLastName" id="StudentLastName" class="form-control" placeholder="Enter Student LastName" required>
-    </div>
-    <div class="form-group col-md-12">
-        <label for="">Student Code</label>
-        <input type="text" name="StudentCode" id="StudentCode" class="form-control" placeholder="Enter Student Code" required>
-    </div>
-    <div class="form-group col-md-12">
         <label for="">Student Address</label>
-        <input type="text" name="StudentAddress" id="StudentAddress" class="form-control" placeholder="Enter Student Name" required>
+        <input type="text" name="StudentAddress" id="StudentAddress" class="form-control" placeholder="Enter Student Address" required>
     </div>
     <div class="form-group col-md-12">
         <div display:inline-block;">
@@ -69,16 +57,8 @@
         <input type="text" name="StudentNameEdit" id="StudentNameEdit" class="form-control" placeholder="Enter Student Name" required>
     </div>
     <div class="form-group col-md-12">
-        <label for="">Student LastName</label>
-        <input type="text" name="StudentLastNameEdit" id="StudentLastNameEdit" class="form-control" placeholder="Enter Student LastName" required>
-    </div>
-    <div class="form-group col-md-12">
-        <label for="">Student Code</label>
-        <input type="text" name="StudentCodeEdit" id="StudentCodeEdit" class="form-control" placeholder="Enter Student Code" required>
-    </div>
-    <div class="form-group col-md-12">
         <label for="">Student Address</label>
-        <input type="text" name="StudentAddressEdit" id="StudentAddressEdit" class="form-control" placeholder="Enter Student Name" required>
+        <input type="text" name="StudentAddressEdit" id="StudentAddressEdit" class="form-control" placeholder="Enter Student Address" required>
     </div>
     <div class="form-group col-md-12">
         <div display:inline-block;">
@@ -122,8 +102,6 @@
         $("#btnSave").click(function() {
             var std = {};
             std.studentName = $("#StudentName").val();
-            std.studentLastName = $("#StudentLastName").val();
-            std.studentCode = parseInt($("#StudentCode").val());
             std.studentAddress = $("#StudentAddress").val();
             $.ajax({
                 type: "POST",
@@ -154,8 +132,6 @@
                     var rows = "<tr>"
                     + "<td class='producttd'> " + item.studentID +"</td>"
                     + "<td class='producttd'> " + item.studentName +"</td>"
-                    + "<td class='producttd'> " + item.studentLastName +"</td>"
-                    + "<td class='producttd'> " + item.studentCode +"</td>"
                     + "<td class='producttd'> " + item.studentAddress +"</td>"
                     + "<td class='producttd'><a class='nav-link btn edit' unique='"+item.studentID+"'> Edit </a> </td>"
                     + "<td class='producttd'><a class='nav-link btn remove' unique='"+item.studentID+"'> Delete  </a></td>"

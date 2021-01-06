@@ -4,40 +4,74 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.Results;
 using DOMAIN;
 using Service;
+using API.Models;
+using API.Repository;
 
 namespace API.Controllers
 {
     public class StudentController : ApiController
     {
-
-        public List<Student> GetStudents()
+        StudentService Service;
+        public StudentController()
         {
-            StudentService service = new StudentService();
-
-            return service.Get();
+            Service = new StudentService();
         }
-
-        public Student GetById(int id)
+        [HttpGet]
+        public JsonResult<List<StudentModel>> GetAllStudents()
         {
-            StudentService service = new StudentService();
-            return service.GetById(id);
+            EntityMapper<Student, StudentModel> mapObj = new EntityMapper<Student, StudentModel>();
+            List<Student> prodList = Service.Get();
+            List<StudentModel> Students = new List<StudentModel>();
+            foreach(var item in prodList)
+            {
+                Students.Add(mapObj.Translate(item));
+            }
+            return Json<List<StudentModel>>(Students);
         }
-        public void Insert(Student student)
+        [HttpGet]
+        public JsonResult<StudentModel> GetStudent(int id)
         {
-            StudentService service = new StudentService();
-            service.Insert(student);
+            EntityMapper<Student, StudentModel> mapObj = new EntityMapper<Student, StudentModel>();
+            Student dalStudent = Service.GetById(id);
+            StudentModel Students = new StudentModel();
+            Students = mapObj.Translate(dalStudent);
+            return Json<StudentModel>(Students);
         }
-        public void Update(Student student, int id)
+        [HttpPost]
+        public bool InsertStudent(StudentModel Student)
         {
-            StudentService service = new StudentService();
-            service.Update(student, id);
+            bool status = false;
+            if (ModelState.IsValid)
+            {
+                EntityMapper<StudentModel, Student> mapObj = new EntityMapper<StudentModel, Student>();
+                Student StudentObj = new Student ();
+                StudentObj = mapObj.Translate(Student);
+                Service.Insert(StudentObj);
+                status = true;
+            }
+            return status;
         }
-        public void Delete(int ID)
+        [HttpPut]
+        public bool UpdateStudent(StudentModel Student)
         {
-            StudentService service = new StudentService();
-            service.Delete(ID);
+            bool status = false;
+            EntityMapper<StudentModel, Student> mapObj = new EntityMapper<StudentModel, Student>();
+            Student StudentObj = new Student();
+            StudentObj = mapObj.Translate(Student);
+            Service.Update(StudentObj, StudentObj.studentID);
+            status = true;
+            return status;
+        }
+        [HttpDelete]
+        public bool DeleteStudent(int id)
+        {
+            bool status = false;
+            Service.Delete(id);
+            status = true;
+            return status;
         }
     }
 }
