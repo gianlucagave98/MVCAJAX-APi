@@ -17,7 +17,7 @@
                 <th align="left" class="productth">Student Code</th>
                 <th align="left" class="productth">Student Address</th>
                 <th align="left" class="productth">Edit</th>
-                <th align="left" class="productth" id="deleteStudent">Delete</th>
+                <th align="left" class="productth">Delete</th>
             </tr>
         </thead>
         <tbody></tbody>
@@ -75,7 +75,7 @@
 
 </div>
 
-<div id="popupDelete" style="display: none;">
+<div id="popup" style="display: none;">
 
     <h3 class="text-center">Are you sure to delete this student?</h3>
 
@@ -88,7 +88,7 @@
     <script src="~/Scripts/jquery-ui-1.12.1.min.js"></script>
 
     <script type="text/javascript">
-    $(function () {
+        $(function () {
         $("#addStudent").click(function () {
             $("#popupAdd").dialog({
                 title: "Add Form",
@@ -105,10 +105,10 @@
         LoadData();
         $("#btnSave").click(function() {
             var std = {};
-            std.studentName = $("#StudentNameEdit").val();
-            std.studentLastName = $("#StudentLastNameEdit").val();
-            std.studentCode = parseInt($("#StudentCodeEdit").val());
-            std.studentAddress = $("#StudentAddressEdit").val();
+            std.studentName = $("#StudentName").val();
+            std.studentLastName = $("#StudentLastName").val();
+            std.studentCode = parseInt($("#StudentCode").val());
+            std.studentAddress = $("#StudentAddress").val();
             $.ajax({
                 type: "POST",
                 url: '@Url.Action("createStudent")',
@@ -125,36 +125,78 @@
             return false;
         });
     });
-    function LoadData() {
-        $("#tblStudent tbody tr").remove();
-        $.ajax({
-            type: 'POST',
-            url: '@Url.Action("getStudent")',
-            dataType: 'json',
-            data: {id: ''},
-            success: function(data) {
-                var items = '';
-                $.each(data, function(i, item) {
-                    var rows = "<tr>"
-                    + "<td class='producttd'> " + item.studentID +"</td>"
-                    + "<td class='producttd'> " + item.studentName +"</td>"
-                    + "<td class='producttd'> " + item.studentLastName +"</td>"
-                    + "<td class='producttd'> " + item.studentCode +"</td>"
-                    + "<td class='producttd'> " + item.studentAddress +"</td>"
-                    + "<td class='producttd'><a class='nav-link btn edit' unique='"+item.studentID+"'> Edit </a> </td>"
-                    + "<td class='producttd'><a class='nav-link btn remove' unique='"+item.studentID+"'> Delete  </a></td>"
-                    + "</tr>";
-                    $('#tblStudent tbody').append(rows);
-                });
-            },
-            error: function (ex) {
-                var r = jQuery.parseJSON(response.responseText);
-                alert("Message: "+ r.Message);
-                alert("StrackTrace: "+ r.StrackTrace);
-                alert("ExceptionType: "+ r.ExceptionType);
-            }
+        function LoadData() {
+            $("#tblStudent tbody tr").remove();
+            $.ajax({
+                type: 'POST',
+                url: '@Url.Action("getStudent")',
+                dataType: 'json',
+                data: { id: '' },
+                success: function (data) {
+                    var items = '';
+                    $.each(data, function (i, item) {
+                        var rows = "<tr>"
+                            + "<td class='producttd'> " + item.studentID + "</td>"
+                            + "<td class='producttd'> " + item.studentName + "</td>"
+                            + "<td class='producttd'> " + item.studentLastName + "</td>"
+                            + "<td class='producttd'> " + item.studentCode + "</td>"
+                            + "<td class='producttd'> " + item.studentAddress + "</td>"
+                            + "<td class='producttd'><a class='nav-link btn edit' unique='" + item.studentID + "' onclick='openModalEdit(" + item.studentID + ")'> Edit </a> </td>"
+                            + "<td class='producttd'><a class='nav-link btn remove' unique='" + item.studentID + "' onclick='openModalDelete(" + item.studentID + ")'> Delete  </a></td>"
+                            + "</tr>";
+                        $('#tblStudent tbody').append(rows);
+                    });
+                },
+                error: function (ex) {
+                    var r = jQuery.parseJSON(response.responseText);
+                    alert("Message: " + r.Message);
+                    alert("StrackTrace: " + r.StrackTrace);
+                    alert("ExceptionType: " + r.ExceptionType);
+                }
+            });
+            return false;
+        }
+        function openModalEdit(id) {
+            $("#popupEdit").dialog({
+                title: "Edit Student " + id,
+                width: 430,
+                height: 450,
+                modal: true,
+                buttons: {
+                    Close: function () {
+                        $(this).dialog('close')
+                    }
+                }
+            });
+        }
+        function openModalDelete(id) {
+            $(".remove").click(function () {
+            var idStudent = parseInt($(this).attr("unique"));
+            $("#popup").dialog({
+                title: "Basic dialog",
+                width: 430,
+                height: 200,
+                modal: true,
+                buttons: {
+                    Delete: function () {
+                        $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("deleteStudent")',
+                        data: JSON.stringify({ id: idStudent}),
+                        dataType: "json",
+                        contentType: 'application/json; charset=utf-8',
+                        success: function() {
+                            LoadData();
+                        },
+                        error: function() {
+                            alert("Error while deleting data")
+                            }
+                        });
+                        $(this).dialog('close')
+                    }
+                }
+            });
         });
-        return false;
-    }
+        }
     </script>
 }

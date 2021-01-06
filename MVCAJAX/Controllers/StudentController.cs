@@ -28,6 +28,12 @@ namespace MVCAJAX.Controllers
             string message = response.Result.Mensaje;
             return Json(new { Message = message,JsonRequestBehavior.AllowGet});
         }
+        public ActionResult UpdateStudent(StudentModel std)
+        {
+            var response = Task.Run(() => proxy.UpdateAsync(std));
+            string message = response.Result.Mensaje;
+            return Json(new { Message = message, JsonRequestBehavior.AllowGet });
+        }
         public ActionResult Index()
         {
             return View();

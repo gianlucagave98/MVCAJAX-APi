@@ -6,11 +6,12 @@ using System.Web;
 namespace API.Models
 {
     public class StudentModel
-    {
+    {        
         public int studentID { get; set; }
         public string studentName { get; set; }
         public string studentAddress { get; set; }
         public string studentLastName { get; set; }
         public int studentCode { get; set; }
+
     }
 }
